@@ -1,1 +1,966 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ming Chinor | Restoran</title>
+  <meta name="description" content="Ming Chinor restorani uchun zamonaviy, mobilga mos website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0d0f12;
+      --bg2:#13161b;
+      --panel:#181c22;
+      --card:#1d222a;
+      --text:#f8f3eb;
+      --muted:#cbbfae;
+      --soft:#9b907f;
+      --gold:#d5a457;
+      --gold2:#f0cb8d;
+      --green:#6cb96f;
+      --line:rgba(255,255,255,.08);
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:24px;
+      --max:1200px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(213,164,87,.14), transparent 28%),
+        linear-gradient(180deg, #111318 0%, #0c0e12 100%);
+      overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit}
+    img{display:block;max-width:100%}
+    .container{width:min(calc(100% - 32px), var(--max)); margin:auto}
+    .section{padding:84px 0}
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 14px; border-radius:999px;
+      background:rgba(255,255,255,.05); border:1px solid var(--line);
+      color:#f1d7ab; font-size:.82rem; letter-spacing:.08em; text-transform:uppercase
+    }
+    .eyebrow:before{
+      content:""; width:8px; height:8px; border-radius:50%;
+      background:linear-gradient(135deg, var(--gold), var(--gold2));
+    }
+    h1,h2,h3,h4{margin:0; line-height:1.08}
+    h1,h2{
+      font-family:"Playfair Display", Georgia, serif;
+      letter-spacing:-.03em;
+    }
+    h1{font-size:clamp(2.8rem, 7vw, 5.8rem)}
+    h2{font-size:clamp(2rem, 5vw, 3.3rem); margin-top:16px}
+    p{color:var(--muted); line-height:1.75; margin:0}
+    .sub{margin-top:18px; max-width:72ch}
+
+    .header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(10,12,16,.72);
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
+    .nav{
+      min-height:74px;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+    }
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800}
+    .mark{
+      width:44px;height:44px;border-radius:14px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      color:#111; font-weight:900;
+      box-shadow:var(--shadow);
+    }
+    .links{display:flex; gap:20px; color:var(--muted); font-size:.96rem}
+    .links a:hover{color:#fff}
+    .cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 18px; border-radius:999px;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      color:#19150f; font-weight:800; box-shadow:var(--shadow);
+    }
+
+    .hero{padding:32px 0 26px}
+    .hero-shell{
+      min-height:84vh; border-radius:34px; overflow:hidden; position:relative;
+      border:1px solid rgba(255,255,255,.08); box-shadow:var(--shadow);
+      display:grid; align-items:end;
+      background-size:cover; background-position:center;
+    }
+    .hero-shell:before{
+      content:""; position:absolute; inset:0;
+      background:
+        linear-gradient(135deg, rgba(0,0,0,.28), rgba(0,0,0,.78)),
+        radial-gradient(circle at 20% 20%, rgba(213,164,87,.18), transparent 25%);
+    }
+    .hero-grid{
+      position:relative; z-index:1;
+      display:grid; grid-template-columns:1.2fr .8fr; gap:26px;
+      padding:clamp(24px, 5vw, 48px);
+    }
+    .hero-copy p{max-width:64ch; margin-top:18px}
+    .actions{display:flex; flex-wrap:wrap; gap:14px; margin-top:26px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:14px 20px; border-radius:999px; font-weight:700;
+      border:1px solid var(--line);
+    }
+    .btn.primary{
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      color:#15110c; border:none;
+      box-shadow:var(--shadow);
+    }
+    .btn.secondary{
+      background:rgba(255,255,255,.06);
+      color:#fff;
+    }
+    .stats{
+      margin-top:28px;
+      display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+    }
+    .stat{
+      padding:18px; border-radius:20px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .stat strong{display:block; font-size:1.25rem; margin-bottom:6px}
+    .stat span{color:var(--muted); font-size:.94rem}
+    .hero-card{
+      align-self:end;
+      padding:24px;
+      border-radius:28px;
+      background:rgba(15,16,20,.72);
+      border:1px solid rgba(255,255,255,.09);
+      backdrop-filter:blur(12px);
+    }
+    .rating{
+      display:flex; align-items:center; gap:14px; margin-bottom:14px;
+    }
+    .rating strong{font-size:2.2rem; color:#fff}
+    .facts{display:grid; gap:14px; margin-top:18px}
+    .fact{
+      display:grid; grid-template-columns:24px 1fr; gap:12px;
+      color:var(--muted);
+    }
+
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:30px; align-items:center}
+    .image-card{
+      min-height:360px; border-radius:28px; overflow:hidden;
+      border:1px solid var(--line); box-shadow:var(--shadow);
+      position:relative;
+      background:#111;
+    }
+    .image-card img{width:100%; height:100%; object-fit:cover}
+    .tag{
+      position:absolute; left:16px; bottom:16px; z-index:1;
+      padding:10px 14px; border-radius:999px;
+      background:rgba(15,15,18,.72); border:1px solid var(--line);
+      font-size:.88rem;
+    }
+    .panel{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:clamp(22px, 4vw, 38px);
+    }
+    .chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px}
+    .chip{
+      padding:10px 14px; border-radius:999px;
+      background:rgba(255,255,255,.05); border:1px solid var(--line);
+      color:#f1e7d6; font-size:.92rem;
+    }
+
+    .cards4{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:30px;
+    }
+    .card{
+      padding:24px; border-radius:24px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+      border:1px solid var(--line); box-shadow:var(--shadow);
+    }
+    .icon{
+      width:56px;height:56px;border-radius:18px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(213,164,87,.24), rgba(108,185,111,.18));
+      margin-bottom:16px; font-size:1.6rem;
+    }
+
+    .menu-layout{
+      display:grid; grid-template-columns:1.05fr .95fr; gap:22px; margin-top:30px;
+    }
+    .menu-panel{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+    .menu-panel h3{
+      font-family:"Playfair Display", serif;
+      font-size:1.6rem; margin-bottom:16px;
+    }
+    .menu-panel h4{
+      margin:22px 0 12px;
+      font-size:1rem; color:#f2d7a5;
+      text-transform:uppercase; letter-spacing:.06em;
+    }
+    .menu-list{
+      display:grid; grid-template-columns:1fr 1fr; gap:10px 24px;
+    }
+    .menu-item{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:10px 0; border-bottom:1px dashed rgba(255,255,255,.08);
+      color:var(--muted);
+    }
+    .price{
+      color:#fff; font-weight:700; white-space:nowrap;
+    }
+
+    .photo-grid{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px;
+    }
+    .photo{
+      overflow:hidden; border-radius:22px;
+      border:1px solid var(--line); background:rgba(255,255,255,.03);
+    }
+    .photo img{
+      width:100%; aspect-ratio:1/1; object-fit:cover; background:#111;
+    }
+    .photo b{display:block; padding:12px 12px 2px}
+    .photo span{display:block; padding:0 12px 12px; color:var(--soft); font-size:.9rem}
+
+    .reviews{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:28px;
+    }
+    .review{
+      padding:24px; border-radius:24px;
+      background:rgba(255,255,255,.05); border:1px solid var(--line);
+    }
+    .stars{color:#f1cf92; letter-spacing:.14em; margin-bottom:14px}
+    .small{margin-top:14px; color:var(--soft); font-size:.92rem}
+
+    .hours{
+      margin-top:28px; padding:18px; border-radius:28px;
+      background:rgba(255,255,255,.04); border:1px solid var(--line);
+    }
+    .hours-grid{
+      display:grid; grid-template-columns:repeat(7,1fr); gap:14px;
+    }
+    .hours-box{
+      text-align:center; padding:16px 12px; border-radius:18px;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06);
+    }
+    .hours-box strong{display:block; margin-bottom:8px}
+
+    .gallery{
+      display:grid; grid-template-columns:1.1fr .9fr .9fr; gap:18px; margin-top:30px;
+    }
+    .gcard{
+      position:relative; overflow:hidden; min-height:300px;
+      border-radius:28px; border:1px solid var(--line); box-shadow:var(--shadow);
+    }
+    .gcard img{width:100%; height:100%; object-fit:cover}
+    .gcard:after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.03), rgba(0,0,0,.58));
+    }
+    .caption{
+      position:absolute; left:18px; bottom:18px; z-index:1;
+    }
+    .caption strong{display:block}
+
+    .contact{
+      padding:clamp(24px,4vw,40px);
+      border-radius:34px;
+      background:
+        radial-gradient(circle at top right, rgba(213,164,87,.16), transparent 28%),
+        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.1);
+      box-shadow:var(--shadow);
+    }
+    .contact-grid{
+      display:grid; grid-template-columns:1.1fr .9fr; gap:18px;
+    }
+    .contact-box{
+      padding:24px; border-radius:24px;
+      background:rgba(10,10,11,.34); border:1px solid var(--line);
+    }
+    .clist{display:grid; gap:16px; margin-top:18px}
+    .citem{
+      display:grid; grid-template-columns:26px 1fr; gap:14px;
+      color:var(--muted);
+    }
+    .citem strong{display:block; color:#fff; margin-bottom:4px}
+    footer{
+      padding:28px 0 56px; color:var(--soft); font-size:.92rem;
+    }
+    .foot{
+      display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+      border-top:1px solid rgba(255,255,255,.08); padding-top:20px;
+    }
+
+    /* Admin */
+    .admin-fab{
+      position:fixed; right:18px; bottom:18px; z-index:100;
+      border:none; cursor:pointer;
+      padding:14px 18px; border-radius:999px;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      color:#19150f; font-weight:800; box-shadow:var(--shadow);
+    }
+    .admin-modal{
+      position:fixed; inset:0; z-index:120;
+      background:rgba(0,0,0,.58);
+      display:none; align-items:center; justify-content:center; padding:20px;
+    }
+    .admin-modal.show{display:flex}
+    .admin-panel{
+      width:min(1100px,100%);
+      max-height:90vh; overflow:auto;
+      background:#11151a; border:1px solid var(--line);
+      border-radius:24px; box-shadow:var(--shadow);
+      padding:20px;
+    }
+    .admin-head{
+      display:flex; justify-content:space-between; align-items:center; gap:16px;
+      margin-bottom:14px;
+    }
+    .admin-tools{
+      display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;
+    }
+    .admin-tools button{
+      border:none; cursor:pointer; padding:12px 16px; border-radius:14px;
+      font-weight:700;
+    }
+    .admin-tools .save{background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#111}
+    .admin-tools .reset{background:#252c35; color:#fff}
+    .admin-tools .close{background:#3a1f1f; color:#fff}
+    textarea{
+      width:100%; min-height:60vh; resize:vertical;
+      background:#0d1116; color:#e9e0d4;
+      border:1px solid #2a313b; border-radius:16px;
+      padding:16px; font:14px/1.55 monospace;
+    }
+    .note{
+      margin-top:10px; color:var(--soft); font-size:.92rem;
+    }
+
+    @media (max-width:1080px){
+      .hero-grid,.grid2,.menu-layout,.contact-grid,.cards4,.reviews,.gallery,.hours-grid,.photo-grid{
+        grid-template-columns:1fr 1fr;
+      }
+      .cards4 .card:last-child,.reviews .review:last-child{grid-column:span 2}
+      .menu-list{grid-template-columns:1fr}
+    }
+    @media (max-width:760px){
+      .links,.desktop-only{display:none}
+      .hero-shell{min-height:auto}
+      .hero-grid,.grid2,.menu-layout,.contact-grid,.cards4,.reviews,.gallery,.hours-grid,.photo-grid,.stats{
+        grid-template-columns:1fr;
+      }
+      .section{padding:72px 0}
+      .menu-panel{padding:20px}
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="#top">
+        <span class="mark">MC</span>
+        <span id="brandName">Ming Chinor</span>
+      </a>
+      <nav class="links">
+        <a href="#about">Biz haqimizda</a>
+        <a href="#featured">Tavsiya etiladiganlar</a>
+        <a href="#menu">Taomnoma</a>
+        <a href="#reviews">Fikrlar</a>
+        <a href="#gallery">Galereya</a>
+        <a href="#contact">Aloqa</a>
+      </nav>
+      <a class="cta" id="navPhone" href="tel:+998994749898">Bron qilish</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-shell" id="heroShell">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <span class="eyebrow" id="heroEyebrow">Guliston • Milliy va zamonaviy taomlar</span>
+              <h1 id="heroTitle">Taʼm, mehmondoʻstlik va chiroyli muhit bir joyda.</h1>
+              <p id="heroText">
+                Ming Chinor — oilaviy tushlik, kechki ovqat, mehmon kutish va maxsus tadbirlar uchun qulay maskan.
+              </p>
+              <div class="actions">
+                <a class="btn primary" id="heroPhoneBtn" href="#">Qo‘ng‘iroq qilish</a>
+                <a class="btn secondary" id="mapBtn" target="_blank" rel="noopener" href="#">Xaritada ochish</a>
+              </div>
+              <div class="stats" id="statsWrap"></div>
+            </div>
+
+            <aside class="hero-card">
+              <div class="rating">
+                <strong id="ratingValue">4.4</strong>
+                <span id="ratingText">Guliston restorani<br>Milliy oshxona ruhi</span>
+              </div>
+              <p id="heroCardText">
+                Sayt dizayni restoran muhitini premium uslubda ko‘rsatish uchun tayyorlangan.
+              </p>
+              <div class="facts" id="factsWrap"></div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container grid2">
+        <div class="image-card">
+          <img id="aboutImage" src="" alt="Ming Chinor ichki ko‘rinish">
+          <div class="tag">Premium muhit • Oilaviy va banket uslubi</div>
+        </div>
+
+        <div class="panel">
+          <span class="eyebrow">Biz haqimizda</span>
+          <h2 id="aboutTitle">Gulistondagi qulay va shinam restoran.</h2>
+          <p class="sub" id="aboutText"></p>
+          <div class="chips" id="aboutChips"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="featured">
+      <div class="container">
+        <span class="eyebrow">Tavsiya etiladiganlar</span>
+        <h2>Asosiy yo‘nalishlar</h2>
+        <p class="sub">Sahifada mehmonlar ko‘p qiziqadigan asosiy taom yo‘nalishlari ajratib ko‘rsatiladi.</p>
+        <div class="cards4" id="featuredWrap"></div>
+      </div>
+    </section>
+
+    <section class="section" id="menu">
+      <div class="container">
+        <span class="eyebrow">Yangilangan taomnoma</span>
+        <h2>To‘liq menyu va taom narxlari</h2>
+        <p class="sub">Narxlarni admin panel ichidan JSON orqali xohlagan vaqtda o‘zgartirishingiz mumkin.</p>
+
+        <div class="menu-layout">
+          <div class="menu-panel">
+            <h3>Salatlar</h3>
+            <div class="menu-list" id="salatlarList"></div>
+
+            <h4>1-ovqatga</h4>
+            <div class="menu-list" id="ovqat1List"></div>
+
+            <h4>2-ovqatga</h4>
+            <div class="menu-list" id="ovqat2List"></div>
+          </div>
+
+          <div class="menu-panel">
+            <h3>Zakaz ovqatlar</h3>
+            <div class="menu-list" id="zakazList"></div>
+
+            <h4>Ichimliklar</h4>
+            <div class="menu-list" id="ichimlikList"></div>
+
+            <h4>Taom rasmlari</h4>
+            <p>Quyidagi rasmlar uchun URL’larni admin panel ichida o‘zgartirishingiz mumkin.</p>
+            <div class="photo-grid" id="dishPhotos"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="container">
+        <span class="eyebrow">Mijozlar fikri</span>
+        <h2>Mehmonlar nimani yoqtirishadi</h2>
+        <p class="sub">Xizmat, atmosfera va mazali taomlar restoran haqidagi eng ko‘p tilga olinadigan jihatlardan.</p>
+        <div class="reviews" id="reviewsWrap"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <span class="eyebrow">Ish vaqti</span>
+        <h2>Har kuni xizmatdamiz</h2>
+        <p class="sub">Ish vaqtini ham admin paneldan bemalol almashtirishingiz mumkin.</p>
+        <div class="hours">
+          <div class="hours-grid" id="hoursWrap"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="container">
+        <span class="eyebrow">Galereya</span>
+        <h2>Tashqi ko‘rinish va ichki atmosfera</h2>
+        <p class="sub">Restoranning tashqi ko‘rinishi va banket zali premium taassurot beradi.</p>
+        <div class="gallery" id="galleryWrap"></div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact">
+          <div class="contact-grid">
+            <div>
+              <span class="eyebrow">Aloqa va bron</span>
+              <h2>Stol band qilish yoki yo‘nalish olish</h2>
+              <p class="sub" id="contactLead"></p>
+              <div class="actions">
+                <a class="btn primary" id="contactPhoneBtn" href="#">Qo‘ng‘iroq qilish</a>
+                <a class="btn secondary" id="contactMapBtn" target="_blank" rel="noopener" href="#">Yo‘nalish olish</a>
+              </div>
+            </div>
+            <div class="contact-box">
+              <h3>Tashrif buyuring</h3>
+              <div class="clist" id="contactInfo"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <div>© <span id="year"></span> <span id="footerName">Ming Chinor</span></div>
+      <div>Mobilga mos website + local admin panel</div>
+    </div>
+  </footer>
+
+  <button class="admin-fab" id="openAdmin">Admin</button>
+
+  <div class="admin-modal" id="adminModal">
+    <div class="admin-panel">
+      <div class="admin-head">
+        <div>
+          <h3>Admin panel</h3>
+          <p class="note">Narx, matn, telefon, rasm URL va boshqa ma’lumotlarni shu JSON ichida o‘zgartiring.</p>
+        </div>
+      </div>
+
+      <div class="admin-tools">
+        <button class="save" id="saveData">Saqlash</button>
+        <button class="reset" id="resetData">Default holatga qaytarish</button>
+        <button class="reset" id="downloadJson">JSON yuklab olish</button>
+        <button class="close" id="closeAdmin">Yopish</button>
+      </div>
+
+      <textarea id="jsonEditor"></textarea>
+      <div class="note">
+        Rasm qo‘shish uchun <b>gallery</b> yoki <b>dishPhotos</b> ichidagi <b>image</b> qiymatini URL bilan almashtiring.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const defaultData = {
+      restaurant: {
+        name: "Ming Chinor",
+        phone: "+998994749898",
+        phoneDisplay: "+998 99 474 98 98",
+        address: "Guliston, Shodlik mahalla fuqarolar yigʻini, Sayxun ko‘chasi 53",
+        mapUrl: "https://maps.app.goo.gl/Dgf39SNtA4ZHoT858",
+        instagram: "https://www.instagram.com/ming_chinor_/",
+        rating: "4.4",
+        reviewsCount: "247",
+        heroEyebrow: "Guliston • Milliy va zamonaviy taomlar",
+        heroTitle: "Taʼm, mehmondoʻstlik va chiroyli muhit bir joyda.",
+        heroText: "Ming Chinor — Gulistondagi mashhur restoranlardan biri bo‘lib, oilaviy tushlik, kechki ovqat, mehmon kutish va maxsus tadbirlar uchun qulay maskan.",
+        heroCardText: "Sayt dizayni restoranning muhitini premium ko‘rinishda namoyish qilish uchun tayyorlangan.",
+        heroImage: "https://avatars.mds.yandex.net/get-altay/15257527/2a00000195f00577ea26bc99793ea6e250bf/XXL_height",
+        aboutTitle: "Gulistondagi qulay va shinam restoran",
+        aboutText: "Restoran milliy taomlar, salatlar, zakaz ovqatlar va ichimliklar bilan mehmonlarga xizmat ko‘rsatadi. Sayt strukturasida hero, about, featured dishes, reviews, opening hours, gallery va contact bloklari saqlandi.",
+        aboutImage: "https://avatars.mds.yandex.net/get-altay/15148849/2a000001963e937a9a4d260ac78b81adb19a/orig",
+        contactLead: "Telefon orqali bron qiling yoki xarita orqali restoranga tezda yo‘nalish oling."
+      },
+
+      aboutChips: [
+        "Oilaviy maskan",
+        "Banketlar uchun qulay",
+        "Milliy taomlar",
+        "Mobilga mos website"
+      ],
+
+      stats: [
+        { value: "4.4★", label: "Google Maps reytingi" },
+        { value: "247", label: "Kataloglarda ko‘ringan baholar" },
+        { value: "11:00–22:30", label: "Har kuni ish vaqti" }
+      ],
+
+      facts: [
+        { icon: "📍", text: "Guliston, Shodlik MFY, Sayxun ko‘chasi 53" },
+        { icon: "📞", text: "+998 99 474 98 98" },
+        { icon: "🕒", text: "Har kuni 11:00 dan 22:30 gacha" },
+        { icon: "🍽️", text: "Salatlar, issiq ovqatlar, zakaz taomlar va ichimliklar" }
+      ],
+
+      featured: [
+        { icon: "🥗", title: "Salatlar", text: "Shakarob, Tsezer, Grechiski, Yaponski va boshqa ko‘plab sovuq taomlar." },
+        { icon: "🍜", title: "1-ovqatlar", text: "Moshxo‘rda, Lag‘mon, Chuchvara, Tiftel va Frikadelki." },
+        { icon: "🍖", title: "2-ovqatlar", text: "Jaz, Manti, Shashlik, T-bon steyk, Dolma va boshqalar." },
+        { icon: "🍹", title: "Ichimliklar", text: "Kola, Fanta, Sprite, sok, gazli suv va turli maxito variantlari." }
+      ],
+
+      menu: {
+        salatlar: [
+          { name: 'Shakarob "achiq chuchuk"', price: "18 000" },
+          { name: 'Pamidorchik "firmini"', price: "22 000" },
+          { name: 'Zelen asarti "avashnoy"', price: "20 000" },
+          { name: "Suzma", price: "16 000" },
+          { name: "Nariznoy", price: "20 000" },
+          { name: "Yaponski", price: "24 000" },
+          { name: "Grechiski", price: "26 000" },
+          { name: "Bodriz", price: "18 000" },
+          { name: "Xrustyashi bakilajan", price: "32 000" },
+          { name: "Rukulo", price: "28 000" },
+          { name: "Podvodochki", price: "24 000" },
+          { name: "Jarini gribami", price: "28 000" },
+          { name: "Xe iz tilyatina", price: "36 000" },
+          { name: "Murskoy kapriz", price: "38 000" },
+          { name: "Tsezer", price: "30 000" },
+          { name: "Ramashka", price: "24 000" },
+          { name: "Gnezdo kukushka", price: "29 000" },
+          { name: "Mingchinor", price: "34 000" },
+          { name: "Opera", price: "27 000" },
+          { name: "Alivye", price: "22 000" }
+        ],
+        ovqat1: [
+          { name: "Moshxoʻrda", price: "22 000" },
+          { name: "Lagʻmon", price: "25 000" },
+          { name: "Chuchvara", price: "24 000" },
+          { name: "Tiftel", price: "23 000" },
+          { name: "Frikadelki", price: "23 000" }
+        ],
+        ovqat2: [
+          { name: "Jaz", price: "48 000" },
+          { name: "Manti", price: "28 000" },
+          { name: "Shashlik", price: "18 000" },
+          { name: "T bon steyk", price: "95 000" },
+          { name: "Dolma", price: "42 000" },
+          { name: "Tushonka", price: "46 000" },
+          { name: "Brizol", price: "39 000" },
+          { name: "Izgara kofte", price: "41 000" },
+          { name: "Penirli kofte", price: "43 000" }
+        ],
+        zakaz: [
+          { name: "Osh", price: "35 000" },
+          { name: "Kozon kabob", price: "65 000" },
+          { name: "Qashqadaryocha jaz", price: "58 000" },
+          { name: "Dimlama", price: "52 000" },
+          { name: "Taxta asarti", price: "75 000" },
+          { name: "Qizilcha", price: "30 000" }
+        ],
+        ichimliklar: [
+          { name: "Kola", price: "10 000" },
+          { name: "Fanta", price: "10 000" },
+          { name: "Sprite", price: "10 000" },
+          { name: "Sok", price: "14 000" },
+          { name: "Gazli suv", price: "8 000" },
+          { name: 'Maxito "har xil mevali"', price: "22 000" }
+        ]
+      },
+
+      dishPhotos: [
+        { title: "Shakarob", subtitle: "Rasm URL ni almashtiring", image: "images/shakarob.jpg" },
+        { title: "Tsezer", subtitle: "Rasm URL ni almashtiring", image: "images/tsezer.jpg" },
+        { title: "Osh", subtitle: "Rasm URL ni almashtiring", image: "images/osh.jpg" },
+        { title: "Lag‘mon", subtitle: "Rasm URL ni almashtiring", image: "images/lagmon.jpg" },
+        { title: "Manti", subtitle: "Rasm URL ni almashtiring", image: "images/manti.jpg" },
+        { title: "Shashlik", subtitle: "Rasm URL ni almashtiring", image: "images/shashlik.jpg" },
+        { title: "T-bon steyk", subtitle: "Rasm URL ni almashtiring", image: "images/tbone.jpg" },
+        { title: "Dolma", subtitle: "Rasm URL ni almashtiring", image: "images/dolma.jpg" },
+        { title: "Kozon kabob", subtitle: "Rasm URL ni almashtiring", image: "images/kozon-kabob.jpg" },
+        { title: "Dimlama", subtitle: "Rasm URL ni almashtiring", image: "images/dimlama.jpg" },
+        { title: "Maxito", subtitle: "Rasm URL ni almashtiring", image: "images/maxito.jpg" },
+        { title: "Ming Chinor", subtitle: "Restoran uslubi", image: "https://avatars.mds.yandex.net/get-altay/15148849/2a000001963e937a9a4d260ac78b81adb19a/XXL_height" }
+      ],
+
+      reviews: [
+        {
+          title: "Mazali ovqat va samimiy muhit",
+          text: "Mehmonlar restoran ichki muhiti, xonalar qulayligi va umumiy atmosferani iliq baholashadi.",
+          source: "Yandex Maps sharhlari asosida"
+        },
+        {
+          title: "Oilaviy dam olish uchun qulay",
+          text: "Sharhlarda xizmat va mehmondo‘stlik alohida tilga olingan.",
+          source: "Ochiq katalog sharhlari asosida"
+        },
+        {
+          title: "Xizmat darajasi yuqori",
+          text: "Ko‘pchilik servis sifati va taomlar ta’mini restoranning kuchli tomonlari deb ko‘rsatadi.",
+          source: "Near-place sharhi asosida"
+        }
+      ],
+
+      hours: [
+        { day: "Dush", time: "11:00–22:30" },
+        { day: "Sesh", time: "11:00–22:30" },
+        { day: "Chor", time: "11:00–22:30" },
+        { day: "Paysh", time: "11:00–22:30" },
+        { day: "Juma", time: "11:00–22:30" },
+        { day: "Shan", time: "11:00–22:30" },
+        { day: "Yak", time: "11:00–22:30" }
+      ],
+
+      gallery: [
+        {
+          title: "Tashqi ko‘rinish",
+          subtitle: "Kechki premium fasad",
+          image: "https://avatars.mds.yandex.net/get-altay/15257527/2a00000195f00577ea26bc99793ea6e250bf/XXL_height"
+        },
+        {
+          title: "Ichki zal",
+          subtitle: "Banket uslubidagi interyer",
+          image: "https://avatars.mds.yandex.net/get-altay/15148849/2a000001963e937a9a4d260ac78b81adb19a/orig"
+        },
+        {
+          title: "Atmosfera",
+          subtitle: "Mehmonlar uchun qulay muhit",
+          image: "https://avatars.mds.yandex.net/get-altay/15148849/2a000001963e937a9a4d260ac78b81adb19a/XXL_height"
+        }
+      ]
+    };
+
+    const STORAGE_KEY = "ming_chinor_site_data_v1";
+
+    function getData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return structuredClone(defaultData);
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        return structuredClone(defaultData);
+      }
+    }
+
+    let siteData = getData();
+
+    function renderStats() {
+      const wrap = document.getElementById("statsWrap");
+      wrap.innerHTML = siteData.stats.map(item => `
+        <div class="stat">
+          <strong>${item.value}</strong>
+          <span>${item.label}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderFacts() {
+      const wrap = document.getElementById("factsWrap");
+      wrap.innerHTML = siteData.facts.map(item => `
+        <div class="fact">
+          <span>${item.icon}</span>
+          <span>${item.text}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderFeatured() {
+      document.getElementById("featuredWrap").innerHTML = siteData.featured.map(item => `
+        <div class="card">
+          <div class="icon">${item.icon}</div>
+          <h3>${item.title}</h3>
+          <p style="margin-top:12px">${item.text}</p>
+        </div>
+      `).join("");
+    }
+
+    function renderMenuList(id, items) {
+      document.getElementById(id).innerHTML = items.map(item => `
+        <div class="menu-item">
+          <span>${item.name}</span>
+          <span class="price">${item.price}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderDishPhotos() {
+      document.getElementById("dishPhotos").innerHTML = siteData.dishPhotos.map(item => `
+        <div class="photo">
+          <img src="${item.image}" alt="${item.title}" onerror="this.src='https://placehold.co/600x600/1b1f26/f2e6d5?text=Rasm+qo%27shing'">
+          <b>${item.title}</b>
+          <span>${item.subtitle}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderReviews() {
+      document.getElementById("reviewsWrap").innerHTML = siteData.reviews.map(item => `
+        <div class="review">
+          <div class="stars">★★★★★</div>
+          <h3>${item.title}</h3>
+          <p style="margin-top:12px">${item.text}</p>
+          <div class="small">${item.source}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderHours() {
+      document.getElementById("hoursWrap").innerHTML = siteData.hours.map(item => `
+        <div class="hours-box">
+          <strong>${item.day}</strong>
+          <span>${item.time}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderGallery() {
+      document.getElementById("galleryWrap").innerHTML = siteData.gallery.map(item => `
+        <div class="gcard">
+          <img src="${item.image}" alt="${item.title}" onerror="this.src='https://placehold.co/900x700/1b1f26/f2e6d5?text=Gallery+image'">
+          <div class="caption">
+            <strong>${item.title}</strong>
+            <span>${item.subtitle}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderContact() {
+      document.getElementById("contactInfo").innerHTML = `
+        <div class="citem">
+          <div>📍</div>
+          <div><strong>Manzil</strong>${siteData.restaurant.address}</div>
+        </div>
+        <div class="citem">
+          <div>🕒</div>
+          <div><strong>Ish vaqti</strong>${siteData.hours.map(h => h.time)[0] || "11:00–22:30"}</div>
+        </div>
+        <div class="citem">
+          <div>📞</div>
+          <div><strong>Telefon</strong>${siteData.restaurant.phoneDisplay}</div>
+        </div>
+        <div class="citem">
+          <div>📱</div>
+          <div><strong>Instagram</strong><a href="${siteData.restaurant.instagram}" target="_blank" rel="noopener">${siteData.restaurant.instagram}</a></div>
+        </div>
+      `;
+    }
+
+    function renderAboutChips() {
+      document.getElementById("aboutChips").innerHTML = siteData.aboutChips.map(chip => `
+        <span class="chip">${chip}</span>
+      `).join("");
+    }
+
+    function applyTopLevel() {
+      document.title = siteData.restaurant.name + " | Restoran";
+      document.getElementById("brandName").textContent = siteData.restaurant.name;
+      document.getElementById("footerName").textContent = siteData.restaurant.name;
+
+      document.getElementById("navPhone").href = "tel:" + siteData.restaurant.phone;
+      document.getElementById("navPhone").textContent = "Bron qilish";
+
+      document.getElementById("heroEyebrow").textContent = siteData.restaurant.heroEyebrow;
+      document.getElementById("heroTitle").textContent = siteData.restaurant.heroTitle;
+      document.getElementById("heroText").textContent = siteData.restaurant.heroText;
+
+      document.getElementById("heroShell").style.backgroundImage =
+        `linear-gradient(135deg, rgba(0,0,0,.28), rgba(0,0,0,.75)), url('${siteData.restaurant.heroImage}')`;
+
+      document.getElementById("heroPhoneBtn").href = "tel:" + siteData.restaurant.phone;
+      document.getElementById("mapBtn").href = siteData.restaurant.mapUrl;
+      document.getElementById("contactMapBtn").href = siteData.restaurant.mapUrl;
+      document.getElementById("contactPhoneBtn").href = "tel:" + siteData.restaurant.phone;
+      document.getElementById("contactPhoneBtn").textContent = siteData.restaurant.phoneDisplay;
+
+      document.getElementById("ratingValue").textContent = siteData.restaurant.rating;
+      document.getElementById("ratingText").innerHTML = `Guliston restorani<br>${siteData.restaurant.reviewsCount} ta baho`;
+      document.getElementById("heroCardText").textContent = siteData.restaurant.heroCardText;
+
+      document.getElementById("aboutTitle").textContent = siteData.restaurant.aboutTitle;
+      document.getElementById("aboutText").textContent = siteData.restaurant.aboutText;
+      document.getElementById("aboutImage").src = siteData.restaurant.aboutImage;
+
+      document.getElementById("contactLead").textContent = siteData.restaurant.contactLead;
+    }
+
+    function renderAll() {
+      applyTopLevel();
+      renderStats();
+      renderFacts();
+      renderAboutChips();
+      renderFeatured();
+      renderMenuList("salatlarList", siteData.menu.salatlar);
+      renderMenuList("ovqat1List", siteData.menu.ovqat1);
+      renderMenuList("ovqat2List", siteData.menu.ovqat2);
+      renderMenuList("zakazList", siteData.menu.zakaz);
+      renderMenuList("ichimlikList", siteData.menu.ichimliklar);
+      renderDishPhotos();
+      renderReviews();
+      renderHours();
+      renderGallery();
+      renderContact();
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+      document.getElementById("jsonEditor").value = JSON.stringify(siteData, null, 2);
+    }
+
+    // Admin panel
+    const adminModal = document.getElementById("adminModal");
+    const jsonEditor = document.getElementById("jsonEditor");
+
+    document.getElementById("openAdmin").addEventListener("click", () => {
+      jsonEditor.value = JSON.stringify(siteData, null, 2);
+      adminModal.classList.add("show");
+    });
+
+    document.getElementById("closeAdmin").addEventListener("click", () => {
+      adminModal.classList.remove("show");
+    });
+
+    document.getElementById("saveData").addEventListener("click", () => {
+      try {
+        const parsed = JSON.parse(jsonEditor.value);
+        siteData = parsed;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(siteData));
+        renderAll();
+        adminModal.classList.remove("show");
+        alert("Ma'lumotlar saqlandi.");
+      } catch (e) {
+        alert("JSON formatida xatolik bor. Tekshirib qayta urinib ko‘ring.");
+      }
+    });
+
+    document.getElementById("resetData").addEventListener("click", () => {
+      if (!confirm("Hammasini default holatga qaytarilsinmi?")) return;
+      siteData = structuredClone(defaultData);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(siteData));
+      renderAll();
+      jsonEditor.value = JSON.stringify(siteData, null, 2);
+      alert("Default holat tiklandi.");
+    });
+
+    document.getElementById("downloadJson").addEventListener("click", () => {
+      const blob = new Blob([JSON.stringify(siteData, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "ming-chinor-data.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    adminModal.addEventListener("click", (e) => {
+      if (e.target === adminModal) adminModal.classList.remove("show");
+    });
+
+    renderAll();
+  </script>
+</body>
+</html>
 
